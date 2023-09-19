@@ -39,8 +39,13 @@ class Lenketliste {
     }
 
     void push_back(String streng) {
-        /// ##System.out.println("lengden er: " + length);
-        getReturn(length - 1).next = new Node(Integer.parseInt(streng));
+        // sjekker om det er noe i lenketlisten hvis brukeren bruker push back aller
+        // først
+        if (head == null) {
+            head = new Node(Integer.parseInt(streng));
+        } else {
+            getReturn(length - 1).next = new Node(Integer.parseInt(streng));
+        }
         length++;
     }
 
@@ -90,6 +95,7 @@ class Lenketliste {
         return currentNode;
     }
 
+    // metode for sorteringsoppgaven insertionsort
     Lenketliste insertionSort(Lenketliste list) {
         for (int i = 1; i <= list.returnLength() - 1; i++) {
             int j = i;
@@ -105,7 +111,54 @@ class Lenketliste {
         return list;
     }
 
-    // returnerer lengen til array brukes for insertionsortmetoden
+    // metode for sorteringsoppgaven merge sort
+    Lenketliste merge(Lenketliste list1, Lenketliste list2, Lenketliste finalList) {
+        int i = 0;
+        int j = 0;
+
+        while (i < list1.returnLength() && j < list2.returnLength()) {
+            if (list1.getReturn(i).returnData() <= list2.getReturn(j).returnData()) {
+                finalList.getReturn(i + j).setData(list1.getReturn(i).returnData());
+                i += 1;
+            } else {
+                finalList.getReturn(i + j).setData(list2.getReturn(j).returnData());
+                j += 1;
+            }
+        }
+        while (i < list1.returnLength()) {
+            finalList.getReturn(i + j).setData(list1.getReturn(i).returnData());
+            i += 1;
+        }
+        while (j < list2.returnLength()) {
+            finalList.getReturn(i + j).setData(list2.getReturn(j).returnData());
+            j += 1;
+        }
+        return finalList;
+    }
+
+    Lenketliste mergeSort(Lenketliste nodeList) {
+        if (nodeList.returnLength() <= 1) {
+            return nodeList;
+        }
+        Lenketliste nodeListLeft = new Lenketliste();
+        Lenketliste nodeListRight = new Lenketliste();
+        // den for løkken går gjennom vært element og lager to lister der inneholdet er
+        // splittet av den originale listen
+        for (int j = 0; j < nodeList.returnLength(); j++) {
+            // hvis vi er fra den første noden til den før midten plasser elementene i array
+            // til venstre, hvis vi er over midten plasserer vi elemtet til arrayen på høyre
+            if (j < ((int) Math.floor((nodeList.returnLength() + 1) / 2))) {
+                nodeListLeft.push_back(nodeList.getReturn(j).returnData() + "");
+            } else {
+                nodeListRight.push_back(nodeList.getReturn(j).returnData() + "");
+            }
+        }
+        nodeListLeft = mergeSort(nodeListLeft);
+        nodeListRight = mergeSort(nodeListRight);
+        return merge(nodeListLeft, nodeListRight, nodeList);
+    }
+
+    // returnerer lengen til array brukes for insertionsortmetoden og merge metoden
     int returnLength() {
         return length;
     }
@@ -134,8 +187,11 @@ class Lenketliste {
             }
         }
 
-        // Sortering for insertionSort
-        System.out.println(nodeList.insertionSort(nodeList).toString());
+        // Sortering for insertionSort, skriver ut på terminal
+        System.out.println("Insertionsort:\n" + nodeList.insertionSort(nodeList).toString());
+
+        // sortering for mergesort, skriver ut på terminal
+        System.out.println("MergeSort:\n" + nodeList.mergeSort(nodeList).toString());
 
         scan.close();
     }
