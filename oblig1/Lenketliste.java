@@ -1,6 +1,6 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 class Lenketliste {
@@ -164,7 +164,7 @@ class Lenketliste {
         return length;
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
         File file = new File("E:\\UiO\\semester 7\\in2010\\IN2010\\oblig1\\input_100");
         Scanner scan = new Scanner(file);
 
@@ -195,7 +195,7 @@ class Lenketliste {
         System.out.println("Insertionsort:\n" + nodeList.insertionSort(nodeList).toString());
 
         for (int i = 0; i < nodeList.returnLength(); i++) {
-            fileContent = fileContent.concat(nodeList.getReturn(i).returnData() + "\n")
+            fileContent = fileContent.concat(nodeList.getReturn(i).returnData() + "\n");
         }
 
         FileWriter writer = new FileWriter("example_insertionsort.out");
