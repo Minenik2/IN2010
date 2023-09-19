@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.Scanner;
 
 class Lenketliste {
@@ -187,8 +188,19 @@ class Lenketliste {
             }
         }
 
+        // for å opprette en fil
+        String fileContent = "";
+
         // Sortering for insertionSort, skriver ut på terminal
         System.out.println("Insertionsort:\n" + nodeList.insertionSort(nodeList).toString());
+
+        for (int i = 0; i < nodeList.returnLength(); i++) {
+            fileContent = fileContent.concat(nodeList.getReturn(i).returnData() + "\n")
+        }
+
+        FileWriter writer = new FileWriter("example_insertionsort.out");
+        writer.write(fileContent);
+        writer.close();
 
         // sortering for mergesort, skriver ut på terminal
         System.out.println("MergeSort:\n" + nodeList.mergeSort(nodeList).toString());
