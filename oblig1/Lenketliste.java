@@ -198,6 +198,7 @@ class Lenketliste {
             fileContent = fileContent.concat(nodeList.getReturn(i).returnData() + "\n");
         }
 
+        // skriver ut output insertionsort som en fil
         FileWriter writer = new FileWriter("example_insertionsort.out");
         writer.write(fileContent);
         writer.close();
