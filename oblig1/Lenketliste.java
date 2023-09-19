@@ -61,7 +61,8 @@ class Lenketliste {
 
     void push_middle(String integer) {
         Node nodeA = new Node(Integer.parseInt(integer));
-        System.out.println("arraynumber: " + ((Math.floor((length + 1) / 2))) + " Total: " + (length + 1));
+        // System.out.println("arraynumber: " + ((Math.floor((length + 1) / 2))) + "
+        // Total: " + (length + 1));
         Node nodeEBehind = getReturn((int) (Math.floor((length + 1) / 2)) - 1);
 
         if (nodeEBehind == null) {
@@ -175,7 +176,7 @@ class Lenketliste {
 
         for (int i = 0; i < amount; i++) {
             msg = scan.next();
-            System.out.println(i + " " + nodeList.toString() + "\n");
+            //System.out.println(i + " " + nodeList.toString() + "\n");
 
             if (msg.equals("push_back")) {
                 nodeList.push_back(scan.next());
