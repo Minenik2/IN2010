@@ -1,5 +1,4 @@
-
-class BinaryTree {
+class AVLBinaryTree {
     Node root;
     int length = 0;
 
@@ -53,6 +52,29 @@ class BinaryTree {
         }
     }
 
+    void searchTreeNode(Node node, Node data) {
+        if (node == null) {
+            length++;
+            return;
+        }
+
+        if (node.returnData() < data.returnData()) {
+            if (node.right == null) {
+                node.right = data;
+                length++;
+                return;
+            }
+            searchTree(node.right, data.returnData());
+        } else if (node.returnData() > data.returnData()) {
+            if (node.left == null) {
+                node.left = data;
+                length++;
+                return;
+            }
+            searchTreeNode(node.left, data);
+        }
+    }
+
     Boolean contains(int data) {
         return hasTree(root, data);
     }
@@ -80,6 +102,13 @@ class BinaryTree {
     void remove(int data) {
         length--;
         removeTree(root, data);
+    }
+
+    Node findMin(Node node) {
+        if (node.left == null) {
+            return node;
+        }
+        return findMin(node.left);
     }
 
     void removeTree(Node node, int data) {
@@ -130,6 +159,10 @@ class BinaryTree {
         return length;
     }
 
+    void selvSorter() {
+
+    }
+
     // denne toString metoden er ikke spurt av obligen men er her for å debugge
     // lettere
     @Override
@@ -153,7 +186,7 @@ class BinaryTree {
     }
 
     public static void main(String[] args) {
-        BinaryTree binaryTree = new BinaryTree();
+        AVLBinaryTree binaryTree = new AVLBinaryTree();
 
         binaryTree.insert(5);
         binaryTree.insert(6);
