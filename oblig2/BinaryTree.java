@@ -1,4 +1,3 @@
-import java.io.IOException;
 
 class BinaryTree {
     Node root;
@@ -129,7 +128,7 @@ class BinaryTree {
         return length;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         BinaryTree binaryTree = new BinaryTree();
 
         binaryTree.insert(5);
