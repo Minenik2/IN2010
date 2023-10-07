@@ -27,33 +27,84 @@ class BinaryTree {
     }
 
     void insert(int data) {
-        length++;
         searchTree(root, data);
     }
 
     void searchTree(Node node, int data) {
         if (node == null) {
             root = new Node(data);
+            length++;
             return;
         }
 
         if (node.returnData() < data) {
             if (node.right == null) {
                 node.right = new Node(data);
+                length++;
                 return;
             }
             searchTree(node.right, data);
         } else if (node.returnData() > data) {
             if (node.left == null) {
                 node.left = new Node(data);
+                length++;
                 return;
             }
             searchTree(node.left, data);
         }
     }
 
-    void contains(int data) {
-        
+    Boolean contains(int data) {
+        return hasTree(root, data);
+    }
+
+    Boolean hasTree(Node node, int data) {
+        if (node == null) {
+            return false;
+        }
+
+        if (node.returnData() == data) {
+            return true;
+        }
+
+        if (node.returnData() < data) {
+            return hasTree(node.right, data);
+        }
+
+        if (node.returnData() > data) {
+            return hasTree(node.left, data);
+        }
+
+        return false;
+    }
+
+    void remove(int data) {
+        length--;
+        removeTree(root, data);
+    }
+
+    void removeTree(Node node, int data) {
+        if (node == null) {
+            return;
+        }
+
+        if (node.left != null && node.left.returnData() == data) {
+            node.left = node.left.left;
+        } else if (node.right != null && node.right.returnData() == data) {
+            node.right = node.right.right;
+        }
+
+        if (node.returnData() > data && node.left != null) {
+            removeTree(node.left, data);
+        }
+
+        if (node.returnData() < data && node.right != null) {
+            removeTree(node.right, data);
+        }
+    }
+
+    int size() {
+        return length;
     }
 
     // denne toString metoden er ikke spurt av obligen men er her for å debugge
@@ -85,9 +136,12 @@ class BinaryTree {
         binaryTree.insert(6);
         binaryTree.insert(10);
         binaryTree.insert(46);
-        binaryTree.insert(50);
+        binaryTree.insert(10);
         binaryTree.insert(2);
         System.out.println(binaryTree.toString());
-
+        System.out.println(binaryTree.contains(46));
+        binaryTree.remove(10);
+        System.out.println(binaryTree.toString());
+        System.out.println(binaryTree.size());
     }
 }
