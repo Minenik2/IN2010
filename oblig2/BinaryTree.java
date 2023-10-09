@@ -82,17 +82,53 @@ class BinaryTree {
         removeTree(root, data);
     }
 
+    Node findMin(Node node) {
+        if (node.left.left == null) {
+            return node;
+        }
+        return findMin(node.left);
+    }
+
     void removeTree(Node node, int data) {
         if (node == null) {
             return;
         }
 
+        // hvis noden vi prøver å få vekk er roten
+        if (node.returnData() == data) {
+            if (node.left != null && node.right != null) {
+                if (node.right.left != null) {
+                    Node erstattNode = findMin(node.right);
+                    erstattNode.left.left = node.left;
+                    erstattNode.left.right = node.right;
+                    root = erstattNode.left;
+                    erstattNode.left = null;
+                } else {
+                    root = node.right;
+                    node.right.left = node.left;
+                }
+            } else if (node.left != null) {
+                root = node.left;
+            } else if (node.right != null) {
+                root = node.right;
+            } else {
+                root = null;
+            }
+            return;
+        }
+
         if (node.left != null && node.left.returnData() == data) {
             if (node.left.left != null && node.left.right != null) {
-                Node erstattNode = findMin(node.left.right);
-                erstattNode.left = node.left.left;
-                erstattNode.right = node.left.right;
-                node.left = erstattNode;
+                if (node.left.right.left != null) {
+                    Node erstattNode = findMin(node.left.right);
+                    erstattNode.left.left = node.left.left;
+                    erstattNode.left.right = node.left.right;
+                    node.left = erstattNode.left;
+                    erstattNode.left = null;
+                } else {
+                    node.left.right.left = node.left.left;
+                    node.left = node.left.right;
+                }
             } else if (node.left.left != null) {
                 node.left = node.left.left;
             } else if (node.left.right != null) {
@@ -103,10 +139,16 @@ class BinaryTree {
             return;
         } else if (node.right != null && node.right.returnData() == data) {
             if (node.right.left != null && node.right.right != null) {
-                Node erstattNode = findMin(node.left.right);
-                erstattNode.left = node.right.left;
-                erstattNode.right = node.right.right;
-                node.right = erstattNode;
+                if (node.right.right.left != null) {
+                    Node erstattNode = findMin(node.left.right);
+                    erstattNode.left.left = node.right.left;
+                    erstattNode.left.right = node.right.right;
+                    node.right = erstattNode.left;
+                    erstattNode.left = null;
+                } else {
+                    node.right.left.right = node.right.right;
+                    node.right = node.right.left;
+                }
             } else if (node.right.left != null) {
                 node.right = node.right.left;
             } else if (node.right.right != null) {
@@ -163,7 +205,11 @@ class BinaryTree {
         binaryTree.insert(2);
         System.out.println(binaryTree.toString());
         System.out.println(binaryTree.contains(46));
-        binaryTree.remove(10);
+        binaryTree.remove(46);
+        binaryTree.insert(-5);
+        binaryTree.insert(-7);
+        binaryTree.insert(-3);
+        binaryTree.remove(-5);
         System.out.println(binaryTree.toString());
         System.out.println(binaryTree.size());
     }
